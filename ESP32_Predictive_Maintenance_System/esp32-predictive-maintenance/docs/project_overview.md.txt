@@ -1,0 +1,58 @@
+ Predictive Maintenance System – Explanation
+
+ What is Predictive Maintenance?
+
+Predictive maintenance is a technique used to monitor the condition of a machine using sensors and predict possible failures before they occur. Instead of repairing machines after breakdown, this approach helps in taking preventive actions based on real-time data.
+
+---
+
+ Objective of This Project
+
+The goal of this project is to design a basic predictive maintenance system using ESP32 and multiple sensors. The system continuously monitors machine parameters and identifies abnormal conditions.
+
+---
+
+ Sensors Used and Their Purpose
+
+- **Temperature Sensor (DS18B20)**  
+  Measures machine temperature to detect overheating.
+
+- **Vibration Sensor (MPU6050)**  
+  Detects abnormal vibrations which may indicate mechanical issues.
+
+- **Load Simulation (Potentiometer)**  
+  Simulates electrical load or current changes in the system.
+
+- **Light Sensor (LDR)**  
+  Monitors environmental conditions or sudden changes around the system.
+
+---
+ Working Principle
+
+The ESP32 reads data from all sensors and analyzes it using predefined conditions. Instead of using complex machine learning models, a rule-based approach is implemented.
+
+### Example Logic:
+- High temperature + high load + high vibration → Critical condition  
+- Moderate values → Warning  
+- Normal values → Safe condition  
+
+---
+
+ How Prediction is Achieved
+
+The system compares current sensor values with expected normal ranges. If multiple parameters exceed safe limits, the system predicts a possible failure and alerts the user.
+
+---
+
+ Advantages
+
+- Early fault detection  
+- Reduced maintenance cost  
+- Improved system reliability  
+- Simple and cost-effective implementation  
+
+---
+
+Conclusion
+
+This project demonstrates a basic implementation of predictive maintenance using embedded systems. It shows how multiple sensor data can be combined to identify potential issues before actual failure occurs.

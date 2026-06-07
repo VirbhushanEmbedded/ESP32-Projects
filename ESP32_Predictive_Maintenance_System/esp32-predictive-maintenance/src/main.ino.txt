@@ -1,0 +1,78 @@
+#include <Wire.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+// ===== Pins =====
+#define ONE_WIRE_BUS 4
+#define POT_PIN 34
+#define LDR_PIN 35
+
+// ===== DS18B20 Setup =====
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
+// ===== MPU6050 =====
+Adafruit_MPU6050 mpu;
+
+// ===== Variables =====
+float temperature;
+int potValue;
+int ldrValue;
+
+void setup() {
+  Serial.begin(115200);
+
+  // DS18B20
+  sensors.begin();
+
+  // MPU6050
+  if (!mpu.begin()) {
+    Serial.println("MPU6050 not found!");
+    while (1);
+  }
+
+  Serial.println("System Ready...");
+}
+
+void loop() {
+
+  // ===== Read Temperature =====
+  sensors.requestTemperatures();
+  temperature = sensors.getTempCByIndex(0);
+
+  // ===== Read Potentiometer =====
+  potValue = analogRead(POT_PIN);
+
+  // ===== Read LDR =====
+  ldrValue = analogRead(LDR_PIN);
+
+  // ===== Read MPU6050 =====
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  float vibration = abs(a.acceleration.x) + 
+                    abs(a.acceleration.y) + 
+                    abs(a.acceleration.z);
+
+  // ===== Print Values =====
+  Serial.println("------ Sensor Data ------");
+  Serial.print("Temp: "); Serial.println(temperature);
+  Serial.print("Load (Pot): "); Serial.println(potValue);
+  Serial.print("Light (LDR): "); Serial.println(ldrValue);
+  Serial.print("Vibration: "); Serial.println(vibration);
+
+  // ===== Simple Predictive Logic =====
+  if (temperature > 50 && potValue > 3000 && vibration > 20) {
+    Serial.println("⚠️ CRITICAL: Machine Failure Likely!");
+  }
+  else if (temperature > 40 || potValue > 2000) {
+    Serial.println("⚠️ WARNING: Check Machine");
+  }
+  else {
+    Serial.println("✅ Machine Normal");
+  }
+
+  delay(2000);
+}
