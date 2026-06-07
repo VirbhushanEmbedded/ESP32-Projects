@@ -1,0 +1,1 @@
+A multi-sensor-based predictive maintenance system built using ESP32. This project monitors machine conditions such as temperature, vibration, load, and environmental conditions to identify potential failures before they become critical.
