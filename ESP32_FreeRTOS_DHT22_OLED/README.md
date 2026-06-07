@@ -1,0 +1,1 @@
+This project demonstrates multitasking on the ESP32 using FreeRTOS. It reads environmental data from a DHT22 sensor and updates an SSD1306 OLED display in real-time using queues for safe inter-task communication.
